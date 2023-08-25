@@ -1,0 +1,91 @@
+body
+{
+    margin: 0;
+}
+
+#topBar
+{   
+    background-color: #323643;
+    height: 10vh;
+    align-items: center;
+    display: flex;
+}
+
+#logo
+{
+    color: #f7f7f7;
+    margin: 0;
+    margin-left: 3vw;
+}
+
+#sidebar
+{
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #606470;
+    height: 90vh;
+}
+
+.sidebarButton, #projectsButton
+{
+    text-align: center;
+    color: #f7f7f7;
+    margin-bottom: 1vh;
+}
+
+#inboxButton
+{
+    margin-top: 1vh;
+}
+
+#main
+{
+    display: flex;
+}
+
+
+.projectSidebar
+{
+    text-align: center;
+    color: #f7f7f7;
+}
+
+
+.pressed
+{
+    background-color: #f7f7f7;
+    color: black;
+}
+
+.hidden
+{
+    display: none;
+}
+
+
+#display
+{   
+    margin-left: 5vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#taskContainer
+{
+    display: flex;
+   flex-direction: column;
+}
+
+.taskCell
+{
+    background-color: #323643;
+    color: #f7f7f7;
+    display: flex;
+    gap: 50vw;
+}
+
+.nameAndCheck
+{
+    display: flex;
+}

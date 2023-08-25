@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>ToDoList</title>
+</head>
+<body>
+    <div id="topBar">
+        <h2 id = "logo">ToDoList</h2>
+    </div>
+    <div id="main">
+    <div id="sidebar">
+        <div class = "sidebarButton pressed" id = "inboxButton">Inbox</div>
+        <div class = "sidebarButton" id = "todayButton">Today</div>
+        <div class = "sidebarButton" id = "upcomingButton">Upcoming</div>
+        <div id = "projectsButton">Projects</div>
+        <div id = "projectsSidebar"></div>
+        <button id = "addProjectOpen">Add Project</button>
+        <div class="hidden" id = "addProjectContainer">
+            <form>
+                <input id = "newProjectName" type="text" placeholder="Name" required>
+                <button id = "addProject" type="submit">Add</button>
+                <button id = 'cancelAddProject'>Cancel</button>
+            </form>
+
+        </div> 
+    </div> 
+    <div id = 'display'>Something
+        <div class="hidden" id = "addTaskContainer">
+            <form id = "form" onsubmit="return false">
+                <input id = "newTaskName" type="text" placeholder="Name" required>
+                <button id = "addTask" type="submit">Add</button>
+                
+                <button id = 'cancelAddTask'>Cancel</button>
+            </form>
+
+        </div> 
+    </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
