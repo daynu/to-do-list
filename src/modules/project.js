@@ -1,3 +1,4 @@
+import { compareAsc, parseISO } from "date-fns";
 
 export default class Project
 {
@@ -44,5 +45,13 @@ export default class Project
     setName(name)
     {
         this.name = name;
+    }
+
+    sortTasks()
+    {
+        this.tasks.sort((a, b) =>
+        {
+            return compareAsc(parseISO(a.date), parseISO(b.date))
+        })
     }
 }

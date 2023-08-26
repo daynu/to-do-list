@@ -30,6 +30,7 @@ let dates = document.querySelectorAll('.taskDate')
 let projectTitle = document.getElementById('projectTitle')
 let todayButton = document.getElementById('todayButton')
 let deleteProjectButtons = document.querySelectorAll('.deleteProject')
+let upcomingButton = document.getElementById('upcomingButton')
 
 
 function toggleActive(type)
@@ -77,21 +78,26 @@ function addTaskButton()
 
             let projectName = document.getElementById('projectTitle').innerText;
 
-            for(let i = 0; i < projectList.getList().length; i++)
+            if(checkNewTask(taskName, getProject(projectName)))
             {
-                
-                if(projectName == projectList.getList()[i].name)
+                for(let i = 0; i < projectList.getList().length; i++)
                 {
-                    let newTask = new ToDo(taskName)
-                    projectList.getList()[i].tasks.push(newTask)
-                    projectList.setStorage()
-                    taskContainer = document.getElementById('taskContainer')
-                    displayTasks(projectList.getList()[i])
-                    deleteTask(projectList.getList()[i])
-                    addDateOpen()
-                }
+                
+                    if(projectName == projectList.getList()[i].name)
+                    {
+                        let newTask = new ToDo(taskName)
+                        projectList.getList()[i].tasks.push(newTask)
+                        projectList.setStorage()
+                        taskContainer = document.getElementById('taskContainer')
+                        displayTasks(projectList.getList()[i])
+                        deleteTask(projectList.getList()[i])
+                        addDateOpen()
+                    }
             }
             closeAddTask();
+            }
+
+            
         } 
 
 
@@ -159,42 +165,98 @@ function getProject(name)
     }
 }
 
-function displayToday()
+function checkNewProjectName(name)
+{
+    for(let i = 0; i < projectList.getList().length; i++)
+    {
+        if(projectList.getList()[i].name == name)
+        {
+            alert("A project with this name already exists")
+            return false
+        }
+    }
+    return true
+}
+
+function displayTodayUpcoming(name)
 {
     display.innerHTML = '';
-    display.innerHTML += "<h2 id = 'projectTitle'>Today</h2><div id = 'taskContainer'></div>"
+    display.innerHTML += "<h2 id = 'projectTitle'>"+name+"</h2><div id = 'taskContainer'></div>"
     taskContainer = document.getElementById('taskContainer')
-    let todaysTasks = getTodayTasks()
-    todaysTasks.getTasks().forEach((task) =>
+    let tasks;
+    if(name == "Today") tasks = getTodayTasks()
+    else tasks = getUpcomingTasks()
+    tasks.getTasks().forEach((task) =>
     {
         taskContainer.innerHTML += '<div class = "taskCell">' + `<div class = "nameAndCheck"><input class = "checkbox" type = "checkbox" id = "${task.name}-${task.projectName}">
-        <p class = "taskName">` + task.name + `(${task.projectName})` + '</p></div><div class = "taskDateContainer">' + `<p id = "${task.name}Date" class = "taskDate">` + task.date + '</p></div>'
+        <p class = "taskName">` + task.name + `(${task.projectName})` + '</p></div><div class = "taskDateContainer">' + `<p id = "${task.name}Date-${task.projectName}" class = "taskDate">` + task.date + '</p></div>'
     })
 
+    dates = document.querySelectorAll('.taskDate')
     checkboxes = document.querySelectorAll('.checkbox')
     addDateOpen()
-    deleteTaskToday()
+    deleteTaskTodayUpcoming(name)
 
 }
 
-function deleteTaskToday()
+function deleteTaskTodayUpcoming(name)
 {
     checkboxes.forEach((checkbox) =>
     {
-        checkbox.addEventListener('click', () =>
+        checkbox.addEventListener('change', () =>
         {
             let taskNameAndProject = checkbox.id
             let taskName = taskNameAndProject.split('-')[0]
+            console.log(taskName)
             let taskProjectName = taskNameAndProject.split('-')[1]
             let taskProject = getProject(taskProjectName)
             let newProject = new Project(taskProjectName)
             newProject.setTasks(taskProject.tasks)
             newProject.deleteTask(taskName)
+            console.log(newProject)
             replaceProject(newProject)
-            displayToday()
+            displayTodayUpcoming(name)
         })
     })
 }
+
+function changeTaskDateTodayUpcoming(name)
+{
+    let dateInput = document.querySelector('.dateInput')
+    dateInput.addEventListener('change', () =>
+        {
+            let date = new Date(dateInput.value)
+            if((date instanceof Date && !isNaN(date.valueOf())))
+            {
+                console.log(dateInput.id)
+                let taskName = dateInput.id.split('-')[0].slice(0, -4)
+                console.log(taskName)
+                let projectName = dateInput.id.split('-')[1]
+                console.log(projectName)
+                addDate(getProject(projectName), taskName, dateInput.value)
+                displayTodayUpcoming(name)
+             }
+       
+        })
+}
+
+
+function getUpcomingTasks()
+{
+    let upcoming = new Project('Upcoming')
+    projectList.getList().forEach((project) =>
+    {
+        project.tasks.forEach((task) =>
+        {   
+            let newTask = new TodayTask(task.name, project.name, task.date)
+            upcoming.addTask(newTask)
+        })
+    })
+    upcoming.sortTasks()
+    return upcoming
+
+}
+
 
 function deleteTask(project)
 {
@@ -220,21 +282,27 @@ function replaceProject(newProject)
     {
         if(project.name == newProject.name)
         {
-            project = newProject
+            project.tasks = newProject.tasks
+            projectList.setStorage()
             displayTasks(project)
             console.log(project)
         }
     })
-    projectList.setStorage()
+    
 }
 
 function addNewProject(name)
 {
-    let newProject = new Project(name)
-    projectList.addProject(newProject)
-    projectList.setStorage()
-    projectList.getStorage()
-    renderProjectsSidebar()
+    let newProject
+    if(checkNewProjectName(name))
+    {
+        newProject = new Project(name)
+        projectList.addProject(newProject)
+        projectList.setStorage()
+        projectList.getStorage()
+        renderProjectsSidebar()
+    }
+
 }
 
 function addDateOpen()
@@ -251,6 +319,10 @@ function addDateOpen()
             input.type = 'date'
             date.parentNode.replaceChild(input, date)
             projectTitle = document.getElementById('projectTitle')
+            if(projectTitle.innerText == "Today" || projectTitle.innerText == "Upcoming")
+            {
+                changeTaskDateTodayUpcoming(projectTitle.innerText)
+            }
             getDateInput(getProject(projectTitle.innerText))
         })
     }
@@ -258,6 +330,19 @@ function addDateOpen()
     )
 }
 
+
+function checkNewTask(taskName, project)
+{
+    for (let i = 0; i < project.tasks.length; i++)
+    {
+        if(project.tasks[i].name == taskName)
+        {
+            alert("A task with this name already exists!")
+            return false
+        }
+    }
+    return true
+}
 
 function getDateInput(project)
 {
@@ -288,6 +373,7 @@ function addDate(project, taskName, date)
         }
     })
 }
+
 
 
 function getTodayTasks()
@@ -354,6 +440,7 @@ let toggleable = [...sidebarButtons, ...projects]
 
 toggleActive(toggleable)
 
+changeDisplayedProject()
 
 function deleteProjectButtonsWork()
 {
@@ -363,6 +450,8 @@ function deleteProjectButtonsWork()
         {
             let projectName = button.parentElement.id
             deleteProject(projectName)
+            renderProjectsSidebar()
+            changeDisplayedProject()
         })
     })
 }
@@ -381,6 +470,16 @@ function deleteProjectButtonsToggle()
                         button.classList.remove('hidden')
                     }
                     else button.classList.add('hidden')
+                })
+            })
+            project.addEventListener('mouseleave', () =>
+            {
+                deleteProjectButtons.forEach((button) =>
+                {
+                    if(project.contains(button))
+                    {
+                        button.classList.add('hidden')
+                    }
                 })
             })
     })
@@ -419,20 +518,31 @@ addProject.addEventListener('click', () =>
 
 
 
-
-
-for(let i = 0; i<projects.length; i++)
+function changeDisplayedProject()
 {
-    projects[i].addEventListener('click', () =>
+        projects = document.querySelectorAll('.projectSidebar')
+        for(let i = 0; i<projects.length; i++)
     {
-        let name = projects[i].id
-        displayProject(name)
-    })
+        projects[i].addEventListener('click', () =>
+        {
+            let name = projects[i].id
+            displayProject(name)
+        })
+
+        let toggleable = [...sidebarButtons, ...projects]
+
+        toggleActive(toggleable)
+    }
 }
+
 
 
 todayButton.addEventListener('click', () =>
 {
-    displayToday()
+    displayTodayUpcoming("Today")
 })
 
+upcomingButton.addEventListener('click', () =>
+{
+    displayTodayUpcoming("Upcoming")
+})
