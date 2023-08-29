@@ -1,11 +1,24 @@
+@font-face {
+    font-family: "Bebas";
+    src: url('./fonts/BebasNeue-Regular.ttf');
+}
+
+@font-face {
+    font-family: "Marker";
+    src: url("./fonts/PermanentMarker-Regular.ttf");
+}
+
 body
 {
     margin: 0;
+    font-family: "Bebas";
+    font-size: larger;
+    letter-spacing: 1px;
 }
 
 #topBar
 {   
-    background-color: #323643;
+    background-color: #085f63;
     height: 10vh;
     align-items: center;
     display: flex;
@@ -13,7 +26,7 @@ body
 
 #logo
 {
-    color: #f7f7f7;
+    color:#f1f1f1;
     margin: 0;
     margin-left: 3vw;
 }
@@ -23,15 +36,19 @@ body
     width: 15vw;
     display: flex;
     flex-direction: column;
-    background-color: #606470;
+    background-color: #49beb7;
     height: 90vh;
 }
 
 .sidebarButton, #projectsButton
 {
     text-align: center;
-    color: #f7f7f7;
     margin-bottom: 1vh;
+}
+
+.sidebarButton
+{
+    cursor: pointer;
 }
 
 #inboxButton
@@ -49,6 +66,12 @@ body
 {
     text-align: center;
     color: #f7f7f7;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
 }
 
 
@@ -58,17 +81,21 @@ body
     color: black;
 }
 
-.hidden
-{
-    display: none;
-}
+
 
 
 #display
 {   
-    margin-left: 5vw;
+    width: 85vw;
     display: flex;
     flex-direction: column;
+    background-color: #f5e1da;
+}
+
+#display > *
+{
+    margin-left: 5vw;
+    margin-right: 5vw;
 }
 
 #taskContainer
@@ -79,13 +106,163 @@ body
 
 .taskCell
 {
-    background-color: #323643;
-    color: #f7f7f7;
+    color: black;
     display: flex;
-    gap: 50vw;
+    justify-content: space-between;
+    width: 70vw;
+    align-self: center;
 }
 
 .nameAndCheck
 {
     display: flex;
+    width: 20vw;
+    align-items: center;
 }
+
+.taskDateContainer
+{
+    display: flex;
+    cursor: pointer;
+}
+
+.dateInput
+{
+    align-self: center;
+}
+
+.deleteProject
+{
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-family: "Marker";
+    font-size: 18px;
+}
+
+#taskContainer>div:first-child
+{
+    border-top-left-radius: 1% 15%;
+    border-top-right-radius: 1% 15%;
+}
+
+.checkbox
+{
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 1vw;
+}
+
+button
+{
+    cursor: pointer;
+}
+
+.hidden
+{
+    display: none;
+}
+
+#addProjectOpen
+{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    align-self: center;
+}
+
+#addProjectOpen.hidden
+{
+    display: none;
+}
+
+#plus
+{
+    margin: 0;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+#addProjectForm
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#addProject, #cancelAddProject, #addProjectOpen, #addTaskOpen, #addTask, #cancelAddTask
+{
+    background-color: #358984;
+    color: #f1f1f1;
+    border: 1px solid #378f89;
+    width: 5vw;
+    aspect-ratio: 3/1;
+    margin-top: 1vh;
+    border-radius: 15%/50%;
+    font-size: 15px;
+}
+
+#addProjectOpen
+{
+    width: 7vw;
+}
+
+#addProjectOpenText
+{
+    margin: 0;
+}
+
+#newProjectName
+{
+    height: 5vh;
+    border: 1px solid #378f89;
+}
+
+#addTaskOpen, #addTask, #cancelAddTask
+{
+    color: black;
+    width: 6vw;
+    align-self: center;
+    background-color: #e0cec6;
+    border: none;
+}
+
+#projectsButton
+{
+    color: white;
+}
+
+.projectSidebarName
+{
+    margin: 0;
+}
+
+#form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#newTaskName
+{
+    width: 20vw;
+    height: 4vh;
+    font-size: 15px;
+}
+
+.projectSidebar:hover
+{
+    background-color: #358984;
+}
+

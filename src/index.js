@@ -59,7 +59,7 @@ function renderProjectsSidebar()
     projectsSidebar.innerHTML = '';
     for(let i = 1; i < projectList.getList().length; i++)
     {
-        projectsSidebar.innerHTML +=`<div id = ${projectList.getList()[i].name} class = projectSidebar>` + projectList.getList()[i].name + '<button class = "deleteProject hidden">X</button>' + '</div>';
+        projectsSidebar.innerHTML +=`<div id = ${projectList.getList()[i].name} class = projectSidebar>`+ "<p class = 'projectSidebarName'>" + projectList.getList()[i].name + "</p>" + '<button class = "deleteProject hidden">X</button>' + '</div>';
         projects = document.querySelectorAll('.projectSidebar')
     }
     deleteProjectButtons = document.querySelectorAll('.deleteProject')
@@ -122,7 +122,7 @@ function displayProject(projectName)
     taskContainer = document.getElementById('taskContainer')
     displayTasks(project)
     display.innerHTML +='<div class="hidden" id = "addTaskContainer">' + 
-    addTaskContainer.innerHTML + '</div>' + '<button id = "addTaskOpen">Add task</button><br>';
+    addTaskContainer.innerHTML + '</div>' + '<button id = "addTaskOpen">+ Add task</button><br>';
     addTaskOpen = document.getElementById('addTaskOpen')
     checkboxes = document.querySelectorAll('.checkbox')
     dates = document.querySelectorAll('.taskDate')
