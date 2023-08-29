@@ -17,12 +17,15 @@
         <div class = "sidebarButton" id = "upcomingButton">Upcoming</div>
         <div id = "projectsButton">Projects</div>
         <div id = "projectsSidebar"></div>
-        <button id = "addProjectOpen">Add Project</button>
+        <button id = "addProjectOpen"><p id = "plus">+</p><p id = "addProjectOpenText">Add Project</p></button>
+
         <div class="hidden" id = "addProjectContainer">
-            <form>
+            <form id = "addProjectForm">
                 <input id = "newProjectName" type="text" placeholder="Name" required>
-                <button id = "addProject" type="submit">Add</button>
-                <button id = 'cancelAddProject'>Cancel</button>
+                <div id = "addProjectContainerButtons">
+                    <button id = "addProject" type="submit">Add</button>
+                    <button id = 'cancelAddProject'>Cancel</button>
+                </div>
             </form>
 
         </div> 
@@ -31,9 +34,13 @@
         <div class="hidden" id = "addTaskContainer">
             <form id = "form" onsubmit="return false">
                 <input id = "newTaskName" type="text" placeholder="Name" required>
-                <button id = "addTask" type="submit">Add</button>
-                
-                <button id = 'cancelAddTask'>Cancel</button>
+
+                <div id = "addTaskContainerButtons">
+                    <button id = "addTask" type="submit">Add</button>
+                    <button id = 'cancelAddTask'>Cancel</button>
+                </div>
+
+            
             </form>
 
         </div> 
